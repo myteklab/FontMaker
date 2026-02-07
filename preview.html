@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FontMaker Preview</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #0f0f1e; }
+canvas { display: block; margin: auto; }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script>
+(function() {
+    'use strict';
+
+    // Signal ready
+    window.parent.postMessage({ type: 'PREVIEW_READY' }, '*');
+
+    window.addEventListener('message', function(e) {
+        var msg = e.data || {};
+        if (msg.type === 'LOAD_PREVIEW') {
+            renderSpecimen(msg.data);
+            window.parent.postMessage({ type: 'PREVIEW_LOADED' }, '*');
+        }
+    });
+
+    function renderSpecimen(data) {
+        if (typeof data === 'string') {
+            try { data = JSON.parse(data); } catch (e) { return; }
+        }
+        if (!data || !data.characters) return;
+
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var gridSize = data.gridSize || 16;
+        var chars = data.characters;
+
+        // Build lookup: charCode → grid
+        var charMap = {};
+        Object.keys(chars).forEach(function(code) {
+            charMap[parseInt(code)] = chars[code].grid;
+        });
+
+        function hasChars(text) {
+            for (var i = 0; i < text.length; i++) {
+                if (charMap[text.charCodeAt(i)]) return true;
+            }
+            return false;
+        }
+
+        var sampleLines = [
+            { text: 'AaBbCcDd', scale: 3 },
+            { text: 'The quick brown fox jumps', scale: 2 },
+            { text: 'over the lazy dog', scale: 2 },
+            { text: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', scale: 1.5 },
+            { text: 'abcdefghijklmnopqrstuvwxyz', scale: 1.5 },
+            { text: '0123456789 !@#$%&()', scale: 1.5 }
+        ].filter(function(line) { return hasChars(line.text); });
+
+        if (sampleLines.length === 0) {
+            var allChars = Object.keys(chars).sort(function(a, b) { return a - b; })
+                .map(function(c) { return String.fromCharCode(parseInt(c)); }).join('');
+            sampleLines = [{ text: allChars, scale: 3 }];
+        }
+
+        var lineGap = 8;
+        var sidePad = 16;
+        var topPad = 12;
+        var maxLineW = 0;
+        var totalH = topPad;
+
+        sampleLines.forEach(function(line) {
+            var pxSize = line.scale;
+            var charW = gridSize * pxSize;
+            var gap = Math.round(pxSize * 2);
+            var lineW = 0;
+            for (var i = 0; i < line.text.length; i++) {
+                var code = line.text.charCodeAt(i);
+                if (code === 32) { lineW += Math.round(charW * 0.5); continue; }
+                if (charMap[code]) lineW += charW + gap;
+            }
+            if (lineW > gap) lineW -= gap;
+            if (lineW > maxLineW) maxLineW = lineW;
+            line._h = gridSize * pxSize;
+            line._lineW = lineW;
+            totalH += line._h + lineGap;
+        });
+        totalH += topPad - lineGap;
+
+        var cW = Math.max(maxLineW + sidePad * 2, 300);
+        var cH = totalH;
+
+        var dpr = window.devicePixelRatio || 1;
+        canvas.width = cW * dpr;
+        canvas.height = cH * dpr;
+        canvas.style.width = cW + 'px';
+        canvas.style.height = cH + 'px';
+        ctx.scale(dpr, dpr);
+
+        // Background
+        ctx.fillStyle = '#0f0f1e';
+        ctx.fillRect(0, 0, cW, cH);
+
+        // Render specimen
+        var y = topPad;
+        sampleLines.forEach(function(line) {
+            var pxSize = line.scale;
+            var charW = gridSize * pxSize;
+            var gap = Math.round(pxSize * 2);
+            var x = Math.round((cW - line._lineW) / 2);
+
+            for (var i = 0; i < line.text.length; i++) {
+                var code = line.text.charCodeAt(i);
+                if (code === 32) { x += Math.round(charW * 0.5); continue; }
+                var grid = charMap[code];
+                if (!grid) continue;
+
+                ctx.fillStyle = '#c4b5fd';
+                for (var py = 0; py < gridSize; py++) {
+                    for (var px = 0; px < gridSize; px++) {
+                        if (grid[py] && grid[py][px]) {
+                            ctx.fillRect(
+                                Math.round(x + px * pxSize),
+                                Math.round(y + py * pxSize),
+                                Math.ceil(pxSize),
+                                Math.ceil(pxSize)
+                            );
+                        }
+                    }
+                }
+                x += charW + gap;
+            }
+            y += line._h + lineGap;
+        });
+    }
+})();
+</script>
+</body>
+</html>
