@@ -198,20 +198,12 @@ class PreviewPanel {
      */
     renderMissingChar(char, x, y) {
         const ctx = this.ctx;
-        const size = this.fontSize * 0.5;
 
-        // Draw rectangle
-        ctx.strokeStyle = this.missingCharColor;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y - size, size, size);
-
-        // Draw X
-        ctx.beginPath();
-        ctx.moveTo(x, y - size);
-        ctx.lineTo(x + size, y);
-        ctx.moveTo(x + size, y - size);
-        ctx.lineTo(x, y);
-        ctx.stroke();
+        // Draw the actual character using a system font in a muted color
+        ctx.fillStyle = '#444';
+        ctx.font = this.fontSize * 0.8 + 'px monospace';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText(char, x, y);
     }
 
     /**
