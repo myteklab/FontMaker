@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FontMaker - Pixel Font Editor</title>
+    <link rel="stylesheet" href="assets/css/fontmaker.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Header -->
+        <header id="app-header">
+            <div class="header-left">
+                <h1>
+                    <img src="icon.svg" alt="FontMaker" class="app-icon">
+                    FontMaker <span class="help-icon help-icon-large" data-help="intro" title="What is FontMaker?">?</span>
+                </h1>
+                <span id="project-name" class="editable-font-name" title="Click to edit font name">Untitled Font</span>
+                <input type="text" id="project-name-input" class="font-name-input" style="display: none;" maxlength="50">
+            </div>
+            <div class="header-right">
+                <button id="btn-export-ttf" class="btn btn-success" title="Export as TTF font file">
+                    Export TTF
+                </button>
+                <span class="help-icon" data-help="ttf-export" title="How does TTF export work?" style="margin-left: -3px; cursor: pointer;">?</span>
+                <button id="btn-template" class="btn btn-success" title="Load Template">
+                    Template
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div id="main-content">
+            <!-- Left Sidebar - Tools & Settings -->
+            <aside id="sidebar-left">
+                <div class="panel">
+                    <h3>Settings <span class="help-icon" data-help="settings" title="Learn about settings">?</span></h3>
+                    <div class="form-group">
+                        <label>Font Name:</label>
+                        <input type="text" id="input-font-name" value="MyPixelFont" maxlength="50">
+                    </div>
+                    <div class="form-group">
+                        <label>Grid Size:</label>
+                        <select id="select-grid-size">
+                            <option value="5">5x5 (Micro)</option>
+                            <option value="7">7x7 (Tiny - Odd)</option>
+                            <option value="8">8x8 (Tiny - Even)</option>
+                            <option value="9">9x9 (Small - Odd)</option>
+                            <option value="11">11x11 (Medium - Odd)</option>
+                            <option value="13">13x13 (Medium+ - Odd)</option>
+                            <option value="15">15x15 (Large - Odd)</option>
+                            <option value="16" selected>16x16 (Standard - Even)</option>
+                            <option value="17">17x17 (Large+ - Odd)</option>
+                            <option value="24">24x24 (XL - Even)</option>
+                            <option value="32">32x32 (XXL - Even)</option>
+                        </select>
+                        <small style="color: #a0a0a0; display: block; margin-top: 5px;">Odd grids have a center pixel for perfect symmetry</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Character Height:</label>
+                        <input type="number" id="input-char-height" value="16" min="1" max="100">
+                        <small>Font units (affects TTF generation)</small>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Tools <span class="help-icon" data-help="tools" title="Learn about tools">?</span></h3>
+                    <div class="tool-buttons">
+                        <button class="tool-btn active" data-tool="pencil" title="Pencil (P)">P</button>
+                        <button class="tool-btn" data-tool="eraser" title="Eraser (E)">E</button>
+                        <button class="tool-btn" data-tool="fill" title="Fill (F)">F</button>
+                        <button class="tool-btn" data-tool="line" title="Line (L)">L</button>
+                        <button class="tool-btn" data-tool="move" title="Move (M)">M</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Actions <span class="help-icon" data-help="actions" title="Learn about actions">?</span></h3>
+
+                    <!-- History -->
+                    <div class="action-section">
+                        <label class="action-section-label">History</label>
+                        <div class="action-buttons">
+                            <button id="btn-undo" class="action-btn" title="Undo (Ctrl+Z)" disabled>
+                                <span class="action-icon">&#8630;</span>
+                                <span class="action-label">Undo</span>
+                            </button>
+                            <button id="btn-redo" class="action-btn" title="Redo (Ctrl+Y)" disabled>
+                                <span class="action-icon">&#8631;</span>
+                                <span class="action-label">Redo</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Edit -->
+                    <div class="action-section">
+                        <label class="action-section-label">Edit</label>
+                        <div class="action-buttons">
+                            <button id="btn-copy-char" class="action-btn" title="Copy (Ctrl+C)">
+                                <span class="action-icon">&#9112;</span>
+                                <span class="action-label">Copy</span>
+                            </button>
+                            <button id="btn-paste-char" class="action-btn" title="Paste (Ctrl+V)">
+                                <span class="action-icon">&#9112;</span>
+                                <span class="action-label">Paste</span>
+                            </button>
+                            <button id="btn-clear-char" class="action-btn" title="Clear Character">
+                                <span class="action-icon">&times;</span>
+                                <span class="action-label">Clear</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Transform -->
+                    <div class="action-section">
+                        <label class="action-section-label">Transform</label>
+                        <div class="action-buttons">
+                            <button id="btn-flip-h" class="action-btn" title="Flip Horizontal">
+                                <span class="action-icon">&#8644;</span>
+                                <span class="action-label">Flip H</span>
+                            </button>
+                            <button id="btn-flip-v" class="action-btn" title="Flip Vertical">
+                                <span class="action-icon">&#8645;</span>
+                                <span class="action-label">Flip V</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Shift -->
+                    <div class="action-section">
+                        <label class="action-section-label">Shift</label>
+                        <div class="shift-controls">
+                            <button id="btn-shift-up" class="shift-btn shift-up" title="Shift Up">&uarr;</button>
+                            <button id="btn-shift-left" class="shift-btn shift-left" title="Shift Left">&larr;</button>
+                            <button id="btn-shift-right" class="shift-btn shift-right" title="Shift Right">&rarr;</button>
+                            <button id="btn-shift-down" class="shift-btn shift-down" title="Shift Down">&darr;</button>
+                        </div>
+                    </div>
+
+                    <!-- Center -->
+                    <div class="action-section">
+                        <label class="action-section-label">Align</label>
+                        <div class="action-buttons">
+                            <button id="btn-center-h" class="action-btn" title="Center Horizontally">
+                                <span class="action-icon">&#8644;</span>
+                                <span class="action-label">Center H</span>
+                            </button>
+                            <button id="btn-center-v" class="action-btn" title="Center Vertically">
+                                <span class="action-icon">&#8645;</span>
+                                <span class="action-label">Center V</span>
+                            </button>
+                            <button id="btn-center-both" class="action-btn" title="Center Both">
+                                <span class="action-icon">+</span>
+                                <span class="action-label">Center</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center - Grid Editor -->
+            <main id="editor-main">
+                <div class="panel" style="height: 100%;">
+                    <div id="editor-header">
+                        <h3>Current Character: <span id="current-char-display">A</span></h3>
+                        <div class="grid-controls">
+                            <label>
+                                <input type="checkbox" id="checkbox-show-grid" checked> Show Grid
+                            </label>
+                            <label>
+                                <input type="checkbox" id="checkbox-show-baseline" checked> Show Baseline
+                                <span class="help-icon" id="baseline-help-icon" title="Learn about the baseline">?</span>
+                            </label>
+                            <label style="color: #10b981;">
+                                <input type="checkbox" id="checkbox-mirror-mode"> Mirror Mode
+                                <span class="help-icon" data-help="mirror" title="Learn about mirror mode">?</span>
+                            </label>
+                            <button id="btn-zoom-in" class="btn-icon" title="Zoom In (+)">+</button>
+                            <button id="btn-zoom-out" class="btn-icon" title="Zoom Out (-)">-</button>
+                        </div>
+                    </div>
+                    <div id="canvas-container">
+                        <canvas id="grid-canvas"></canvas>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar - Character Selection & Preview -->
+            <aside id="sidebar-right">
+                <div class="panel">
+                    <h3>Characters <span class="help-icon" data-help="characters" title="Learn about characters">?</span></h3>
+                    <div id="character-tabs">
+                        <button class="char-tab active" data-charset="uppercase">A-Z</button>
+                        <button class="char-tab" data-charset="lowercase">a-z</button>
+                        <button class="char-tab" data-charset="numbers">0-9</button>
+                        <button class="char-tab" data-charset="symbols">!@#</button>
+                    </div>
+                    <div id="character-grid">
+                        <!-- Character buttons will be generated here -->
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Preview <span class="help-icon" data-help="preview" title="Learn about preview">?</span></h3>
+                    <div class="form-group">
+                        <label>Preview Text:</label>
+                        <input type="text" id="input-preview-text" value="The quick brown fox jumps over the lazy dog">
+                    </div>
+                    <div class="form-group">
+                        <label>Preview Size:</label>
+                        <input type="range" id="range-preview-size" min="12" max="72" value="32">
+                        <span id="preview-size-label">32px</span>
+                    </div>
+                    <div id="preview-container">
+                        <canvas id="preview-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Progress <span class="help-icon" data-help="progress" title="Learn about progress">?</span></h3>
+                    <div id="progress-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Characters:</span>
+                            <span id="stat-chars-designed">0</span> / <span id="stat-chars-total">95</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="modal-export" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Export Font</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="export-form">
+                    <div class="form-group">
+                        <label for="export-font-name">Font Name:</label>
+                        <input type="text" id="export-font-name" class="form-control" placeholder="MyPixelFont" maxlength="50">
+                        <small style="color: #a0a0a0; display: block; margin-top: 5px;">This will be the font family name shown in your operating system</small>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button id="btn-confirm-export" class="btn btn-success" style="flex: 1;">Export TTF</button>
+                        <button class="btn modal-close" style="flex: 1;">Cancel</button>
+                    </div>
+                </div>
+                <div id="export-progress-container" style="display: none;">
+                    <p>Your font is being generated...</p>
+                    <div class="progress-bar">
+                        <div id="export-progress" class="progress-fill"></div>
+                    </div>
+                    <div id="export-status"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Selection Modal -->
+    <div id="modal-template" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Choose a Template</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Start with a pre-designed font template. You can customize any character after loading!</p>
+                <div id="template-list" class="template-list">
+                    <!-- Templates will be loaded here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Baseline Help Modal -->
+    <div id="modal-baseline-help" class="modal">
+        <div class="modal-content modal-baseline-help">
+            <div class="modal-header">
+                <h2>What is the Baseline?</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="baseline-intro">The baseline is an <strong>invisible horizontal line</strong> that most letters "sit" on. Think of it like the lines on notebook paper - all your letters rest on this line to keep text aligned.</p>
+
+                <h3>Why It's Critical</h3>
+                <div class="baseline-comparison">
+                    <div class="comparison-item">
+                        <h4>Without Baseline</h4>
+                        <p>Letters bounce up and down randomly:</p>
+                        <div class="example-text bad">A b C d</div>
+                        <p class="note">Looks unprofessional!</p>
+                    </div>
+                    <div class="comparison-item">
+                        <h4>With Baseline</h4>
+                        <p>Letters align consistently:</p>
+                        <div class="example-text good">A b C d</div>
+                        <p class="note">Clean and readable!</p>
+                    </div>
+                </div>
+
+                <h3>In FontMaker</h3>
+                <p>The baseline appears as a <strong style="color: #7c3aed;">purple dashed line</strong> at 75% from the top of the grid.</p>
+
+                <div class="baseline-zones">
+                    <div class="zone">
+                        <strong>Top 75%:</strong> Main character area (uppercase, lowercase bodies)
+                    </div>
+                    <div class="zone baseline-zone">
+                        <strong>--- BASELINE ---</strong>
+                    </div>
+                    <div class="zone">
+                        <strong>Bottom 25%:</strong> Space for descenders (g, j, p, q, y tails)
+                    </div>
+                </div>
+
+                <h3>Character Types</h3>
+                <ul class="char-types">
+                    <li><strong>Normal Letters</strong> (A, B, C, E, M, etc.) - Bottom pixels touch the baseline</li>
+                    <li><strong>Letters with Descenders</strong> (g, j, p, q, y) - Main body on baseline, tail goes below</li>
+                    <li><strong>Lowercase Letters</strong> (a, c, e, o, s, etc.) - Shorter, but still sit on baseline</li>
+                </ul>
+
+                <h3>Quick Tips</h3>
+                <ul class="tips-list">
+                    <li><strong>Uppercase:</strong> Use most space above baseline, leave bottom ~25% empty</li>
+                    <li><strong>Lowercase:</strong> Use middle 50-70% above baseline</li>
+                    <li><strong>Descenders:</strong> Let g, j, p, q, y drop into lower 25%</li>
+                    <li><strong>Numbers:</strong> Usually same height as uppercase</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Help Modals -->
+    <div id="modal-help" class="modal">
+        <div class="modal-content modal-help">
+            <div class="modal-header">
+                <h2 id="help-modal-title">Help</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="help-modal-body">
+                <!-- Content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="lib/opentype.min.js"></script>
+    <script src="js/Character.js"></script>
+    <script src="js/GridEditor.js"></script>
+    <script src="js/PathConverter.js"></script>
+    <script src="js/FontGenerator.js"></script>
+    <script src="js/PreviewPanel.js"></script>
+    <script src="js/FontProject.js"></script>
+    <script src="js/TemplateManager.js"></script>
+    <script src="js/HelpSystem.js"></script>
+    <script src="js/UIManager.js"></script>
+    <script src="js/FontMaker.js"></script>
+
+    <script>
+        'use strict';
+        window.addEventListener('load', function () {
+            window.fontMaker = new FontMaker();
+        });
+    </script>
+</body>
+</html>
