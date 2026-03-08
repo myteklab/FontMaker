@@ -53,35 +53,6 @@ body {
     border-radius: 6px;
 }
 
-#project-name {
-    font-size: 16px;
-    color: #a0a0a0;
-    font-style: italic;
-}
-
-.editable-font-name {
-    cursor: pointer;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.editable-font-name:hover {
-    background: rgba(124, 58, 237, 0.2);
-}
-
-.font-name-input {
-    font-size: 16px;
-    color: #e0e0e0;
-    background: #0f0f1e;
-    border: 2px solid #7c3aed;
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-style: italic;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
-}
-
 .header-right {
     display: flex;
     gap: 10px;

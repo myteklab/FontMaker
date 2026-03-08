@@ -43,9 +43,6 @@ class FontMaker {
         // Select first character and highlight button in UI
         this.uiManager.selectCharacter('A');
 
-        // Setup editable font name in header
-        this.setupEditableFontName();
-
         // Expose serialize/load on window for platform adapter
         var self = this;
         window.serializeProjectData = function () {
@@ -471,44 +468,4 @@ class FontMaker {
         return false;
     }
 
-    /**
-     * Setup editable font name in header
-     */
-    setupEditableFontName() {
-        const projectNameSpan = document.getElementById('project-name');
-        const projectNameInput = document.getElementById('project-name-input');
-
-        projectNameSpan.addEventListener('click', () => {
-            projectNameSpan.style.display = 'none';
-            projectNameInput.style.display = 'inline-block';
-            projectNameInput.value = this.settings.fontName;
-            projectNameInput.focus();
-            projectNameInput.select();
-        });
-
-        const saveFontName = () => {
-            const newName = projectNameInput.value.trim();
-            if (newName && newName !== '') {
-                this.setFontName(newName);
-            }
-            projectNameInput.style.display = 'none';
-            projectNameSpan.style.display = 'inline-block';
-            projectNameSpan.textContent = this.settings.fontName;
-        };
-
-        projectNameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                saveFontName();
-            }
-        });
-
-        projectNameInput.addEventListener('blur', saveFontName);
-
-        projectNameInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                projectNameInput.style.display = 'none';
-                projectNameSpan.style.display = 'inline-block';
-            }
-        });
-    }
 }

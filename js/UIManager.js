@@ -392,7 +392,6 @@ class UIManager {
      * @param {string} name - Project name
      */
     updateProjectName(name) {
-        document.getElementById('project-name').textContent = name;
         document.getElementById('input-font-name').value = name;
     }
 
