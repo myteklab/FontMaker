@@ -340,12 +340,12 @@ class GridEditor {
         const ps = this.pixelSize * this.zoomLevel; // Pixel size with zoom
 
         // Clear canvas
-        ctx.fillStyle = '#0f0f1e';
+        ctx.fillStyle = '#111118';
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
         // Draw baseline
         if (this.showBaseline) {
-            ctx.strokeStyle = '#7c3aed';
+            ctx.strokeStyle = '#3b82f6';
             ctx.lineWidth = 2;
             ctx.setLineDash([5, 5]);
             ctx.beginPath();
@@ -442,7 +442,7 @@ class GridEditor {
         }
 
         // Draw border
-        ctx.strokeStyle = '#7c3aed';
+        ctx.strokeStyle = '#3b82f6';
         ctx.lineWidth = 2;
         ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
     }

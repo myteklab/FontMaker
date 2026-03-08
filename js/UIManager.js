@@ -341,7 +341,7 @@ class UIManager {
         ctx.fillRect(0, 0, canvasSize, canvasSize);
 
         // Draw pixels
-        ctx.fillStyle = '#7c3aed'; // Purple color for pixels
+        ctx.fillStyle = '#3b82f6';
         for (let y = 0; y < gridSize; y++) {
             for (let x = 0; x < gridSize; x++) {
                 if (character.getPixel(x, y)) {

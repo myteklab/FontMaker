@@ -370,7 +370,7 @@ class FontMaker {
             progressBar.style.width = '0%';
 
             try {
-                statusDiv.innerHTML = '<p style="color: #7c3aed;">Generating TTF font...</p>';
+                statusDiv.innerHTML = '<p style="color: #3b82f6;">Generating TTF font...</p>';
                 progressBar.style.width = '30%';
 
                 await new Promise(resolve => setTimeout(resolve, 200));
@@ -387,7 +387,7 @@ class FontMaker {
 
                 // Platform.uploadAsset when embedded, download otherwise
                 if (window.Platform && Platform.isEmbedded) {
-                    statusDiv.innerHTML = '<p style="color: #7c3aed;">Exporting to your files...</p>';
+                    statusDiv.innerHTML = '<p style="color: #3b82f6;">Exporting to your files...</p>';
                     await new Promise(resolve => setTimeout(resolve, 100));
 
                     const arrayBuffer = font.toArrayBuffer();
@@ -417,7 +417,7 @@ class FontMaker {
                         </p>
                     `;
                 } else {
-                    statusDiv.innerHTML = '<p style="color: #7c3aed;">Downloading TTF...</p>';
+                    statusDiv.innerHTML = '<p style="color: #3b82f6;">Downloading TTF...</p>';
                     await new Promise(resolve => setTimeout(resolve, 100));
 
                     FontGenerator.downloadTTF(font, filename);

@@ -103,7 +103,7 @@ class HelpSystem {
                     <h3>🎯 Your Mission</h3>
                     <p>Ready to create your own font? Click the <strong>❓</strong> icons throughout the interface to learn about each tool and feature. Start small, think big, and most importantly - <strong>have fun creating!</strong></p>
 
-                    <p style="text-align: center; margin-top: 20px; color: #7c3aed; font-size: 16px;"><strong>Let's make something awesome! 🚀</strong></p>
+                    <p style="text-align: center; margin-top: 20px; color: #3b82f6; font-size: 16px;"><strong>Let's make something awesome! 🚀</strong></p>
                 `
             },
 
@@ -311,7 +311,7 @@ class HelpSystem {
                     </ol>
 
                     <h3>⚠️ CRITICAL: Character Positioning</h3>
-                    <p style="background: #2d2d44; padding: 10px; border-left: 3px solid #ef4444;">
+                    <p style="background: #2a2a3a; padding: 10px; border-left: 3px solid #ef4444;">
                         <strong>⚡ Important Spacing Tip:</strong> Position characters based on their width!
                     </p>
                     <ul>
@@ -550,7 +550,7 @@ class HelpSystem {
                         <li>Example: A 16×16 grid = 256 cells of on/off data</li>
                         <li><strong>Memory efficient:</strong> Only ~32 bytes per character!</li>
                     </ul>
-                    <p style="background: #2d2d44; padding: 10px; border-left: 3px solid #7c3aed; font-family: monospace; font-size: 13px;">
+                    <p style="background: #2a2a3a; padding: 10px; border-left: 3px solid #3b82f6; font-family: monospace; font-size: 13px;">
                         <strong>Technical:</strong> This is called a <em>bitmap representation</em> - the simplest way to store pixel art.
                     </p>
 
@@ -563,7 +563,7 @@ class HelpSystem {
                         <li>A <strong>path</strong> is drawn connecting the 4 corners</li>
                         <li><strong>Why vectors?</strong> They scale infinitely without getting blurry!</li>
                     </ul>
-                    <p style="background: #2d2d44; padding: 10px; border-left: 3px solid #10b981; font-family: monospace; font-size: 13px;">
+                    <p style="background: #2a2a3a; padding: 10px; border-left: 3px solid #10b981; font-family: monospace; font-size: 13px;">
                         <strong>Example:</strong> If pixel at (5, 10) is filled:<br>
                         Path = moveTo(5,10) → lineTo(6,10) → lineTo(6,11) → lineTo(5,11) → close()
                     </p>
@@ -577,7 +577,7 @@ class HelpSystem {
                         <li><strong>Merge:</strong> Combine all adjacent pixels into ONE bigger shape</li>
                         <li><strong>Result:</strong> Fewer shapes = smaller file size + faster rendering!</li>
                     </ol>
-                    <p style="background: #2d2d44; padding: 10px; border-left: 3px solid #7c3aed; font-family: monospace; font-size: 13px;">
+                    <p style="background: #2a2a3a; padding: 10px; border-left: 3px solid #3b82f6; font-family: monospace; font-size: 13px;">
                         <strong>Optimization Impact:</strong> Letter "I" might go from 50 tiny squares → just 2 rectangles! 96% reduction!
                     </p>
 
@@ -589,7 +589,7 @@ class HelpSystem {
                         <li><strong>Y-axis flip:</strong> In fonts, Y increases <em>upward</em> (opposite of screen coordinates!)</li>
                         <li><strong>Ascender/Descender:</strong> 80% above baseline, 20% below (for descenders like 'g', 'y')</li>
                     </ul>
-                    <p style="background: #2d2d44; padding: 10px; border-left: 3px solid #10b981; font-family: monospace; font-size: 13px;">
+                    <p style="background: #2a2a3a; padding: 10px; border-left: 3px solid #10b981; font-family: monospace; font-size: 13px;">
                         <strong>Why 1000 units?</strong> This standard was chosen so fonts can scale to any size (12pt, 72pt, 300pt) with mathematical precision!
                     </p>
 
@@ -630,7 +630,7 @@ class HelpSystem {
                         </li>
                         <li><strong>Checksums:</strong> Each table has a checksum to detect file corruption</li>
                     </ul>
-                    <p style="background: #2d2d44; padding: 10px; border-left: 3px solid #7c3aed; font-family: monospace; font-size: 13px;">
+                    <p style="background: #2a2a3a; padding: 10px; border-left: 3px solid #3b82f6; font-family: monospace; font-size: 13px;">
                         <strong>Fun Fact:</strong> TTF files are essentially small databases! Each "table" is like a database table with specific data.
                     </p>
 
@@ -681,7 +681,7 @@ class HelpSystem {
                         <li>Install your font</li>
                         <li>Type with YOUR creation in any program!</li>
                     </ol>
-                    <p style="text-align: center; margin-top: 20px; color: #7c3aed; font-size: 16px;"><strong>You're not just making pixel art - you're building typography! 🎨</strong></p>
+                    <p style="text-align: center; margin-top: 20px; color: #3b82f6; font-size: 16px;"><strong>You're not just making pixel art - you're building typography! 🎨</strong></p>
                 `
             }
         };
