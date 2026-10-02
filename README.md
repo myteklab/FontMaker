@@ -2,6 +2,8 @@
 
 A pixel font editor that lets you design custom bitmap fonts character by character and export them as TTF files.
 
+**Try it in your browser, no account needed:** [mytekdev.com/tools/fontmaker](https://mytekdev.com/tools/fontmaker). The page has a live demo and explains what students learn from it.
+
 ## Features
 
 - **Pixel Grid Editor** — Draw characters on customizable grids (5x5 to 32x32) with pencil, eraser, fill, line, and move tools
