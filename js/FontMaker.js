@@ -61,6 +61,16 @@ class FontMaker {
                     }
                 });
 
+                // The blank letters are remade at the saved font's size. They start at the
+                // default 16, so a 5 by 5 font opened its undrawn letters on a 16 by 16 grid
+                // and they showed in the preview at a third of the size of the drawn ones.
+                var size = result.settings.gridSize;
+                self.characterMap.forEach(function (character, charCode) {
+                    if (!character.isDesigned() && character.gridSize !== size) {
+                        self.characterMap.set(charCode, new Character(character.char, size));
+                    }
+                });
+
                 self.settings = result.settings;
 
                 // Update UI
